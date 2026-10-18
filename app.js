@@ -205,6 +205,16 @@ function saveSentence(){
  $("sentence-input").value="";xp(12);store();$("sentences-count").textContent=data.sentences.length;
  $("sentence-feedback").textContent="Saved! +12 XP. This checks phrase presence, not grammar or meaning.";
 }
+function dictateSentence(){
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SpeechRecognition){$("sentence-feedback").textContent="Speech recognition is unavailable in this browser. You can type your sentence instead.";return}
+ const recognition=new SpeechRecognition();recognition.lang="en-US";recognition.interimResults=false;recognition.maxAlternatives=1;
+ $("sentence-feedback").textContent="Listening… speak one sentence.";
+ recognition.onresult=event=>{const text=event.results?.[0]?.[0]?.transcript||"";$("sentence-input").value=text;$("sentence-feedback").textContent="I heard: "+text+" — review the text and select Check and save."};
+ recognition.onerror=event=>{$("sentence-feedback").textContent="Microphone input was not available ("+event.error+"). Type your sentence instead."};
+ recognition.onend=()=>{if($("sentence-feedback").textContent==="Listening… speak one sentence.")$("sentence-feedback").textContent="No speech detected. Try again or type your sentence."};
+ try{recognition.start()}catch(e){$("sentence-feedback").textContent="Could not start the microphone. You can type instead."}
+}
 function saveReflection(){
  const text=$("reflection").value.trim();if(text.length<25){$("reflection-message").textContent="Write at least 25 characters about what you heard.";return}
  const wasSaved=Boolean(data.reflections[currentClip.id]);data.reflections[currentClip.id]=text;
@@ -233,6 +243,7 @@ $("restart-story").addEventListener("click",()=>{if("speechSynthesis" in window)
 $("speak-line").addEventListener("click",speakLine);
 $("seed-vocab").addEventListener("click",()=>{["bring up","chicken out","figure out"].forEach(saveWord);renderNotebook()});
 $("check-sentence").addEventListener("click",saveSentence);
+$("voice-sentence").addEventListener("click",dictateSentence);
 $("head-xp").textContent="✦ "+data.xp+" XP";
 const start=location.hash.replace("#","");go(["discover","watch","story","notebook"].includes(start)?start:"discover");
 })();
