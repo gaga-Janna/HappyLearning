@@ -41,13 +41,14 @@ follow:{stage:3,place:"THE NEXT DAY / TEXT MESSAGE",speaker:"EMMA",line:"My mana
 {text:"Congratulations! I'm proud you gave it a shot.",next:"end",score:1,feedback:"A warm, natural message of encouragement.",journal:"You celebrated Emma's courage."}]}
 };
 const $ = (id) => document.getElementById(id);
-const initial = {level:"B1–B2",xp:0,words:{},sentences:[],reflections:{},completedStory:false,story:{node:"intro",confidence:0,journal:[],finished:false},clip:CLIPS[0].id};
+const initial = {level:"B1–B2",xp:0,words:{},sentences:[],reflections:{},understanding:{},completedStory:false,story:{node:"intro",confidence:0,journal:[],finished:false},clip:CLIPS[0].id};
 let data;
 try { data = JSON.parse(localStorage.getItem(STORAGE)) || {}; } catch(e){data={};}
 data = Object.assign({},initial,data);
 data.words = data.words && typeof data.words === "object" ? data.words : {};
 data.sentences = Array.isArray(data.sentences) ? data.sentences : [];
 data.reflections = data.reflections && typeof data.reflections === "object" ? data.reflections : {};
+data.understanding = data.understanding && typeof data.understanding === "object" ? data.understanding : {};
 if (!data.story || !STORY[data.story.node] && data.story.node !== "end") data.story = Object.assign({},initial.story);
 let activePage = "discover", currentClip = CLIPS.find(c=>c.id === data.clip) || CLIPS[0], currentWord = null, selectedChoice = null;
 let recallWord = null, showRecallAnswer = false;
@@ -78,12 +79,22 @@ function renderWatch(){
  const src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(currentClip.id)+"?playsinline=1&rel=0&start="+currentClip.start+"&end="+currentClip.end;
  const iframe=document.createElement("iframe");iframe.src=src;iframe.title=currentClip.title;iframe.loading="lazy";iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";iframe.referrerPolicy="strict-origin-when-cross-origin";iframe.allowFullscreen=true;
  $("video-frame").replaceChildren(iframe);
+ $("watch-mission").textContent="Your listening mission: "+(currentClip.question||"Tell the story in your own words.");
+ const rating=data.understanding[currentClip.id];
+ $("understanding-message").textContent=rating?("Your last assessment: "+rating+"% understood. Choose a new rating if it changes."):"";
+ document.querySelectorAll("[data-understood]").forEach(el=>el.classList.toggle("chosen",Number(el.dataset.understood)===rating));
  const external=document.createElement("a");external.href="https://www.youtube.com/watch?v="+currentClip.id;external.target="_blank";external.rel="noopener noreferrer";external.textContent="Open on YouTube ↗";
  $("video-meta").appendChild(external);
  $("reflection").value=data.reflections[currentClip.id]||"";
  $("reflection-message").textContent=data.reflections[currentClip.id]?"Your earlier reflection was restored.":"";
  $("custom-message").textContent="YouTube controls subtitles. The video owner may prevent embedding.";
 }
+function rateUnderstanding(value){
+ const previous=data.understanding[currentClip.id];data.understanding[currentClip.id]=value;
+ if(!previous)xp(5);store();
+ document.querySelectorAll("[data-understood]").forEach(el=>el.classList.toggle("chosen",Number(el.dataset.understood)===value));
+ $("understanding-message").textContent=value<60?"Try again with captions and focus on the main idea.":value<85?"Good challenge. Rewatch one confusing moment, then retell it.":"Strong comprehension. Try a harder clip or summarize without subtitles.";
+ }
 function loadCustom(){
  let id;const value=$("video-url").value.trim();
  try{const url=new URL(value);const host=url.hostname.toLowerCase().replace(/^www\./,"").replace(/^m\./,"");if(host==="youtu.be")id=url.pathname.split("/")[1];else if(["youtube.com","youtube-nocookie.com"].includes(host)){id=url.searchParams.get("v")||url.pathname.match(/\/(?:shorts|embed|live)\/([^/?]+)/)?.[1]}}catch(e){}
@@ -202,6 +213,7 @@ function saveReflection(){
 }
 document.addEventListener("click",e=>{
  const nav=e.target.closest("[data-go]");if(nav){go(nav.dataset.go);return}
+ const understood=e.target.closest("[data-understood]");if(understood){rateUnderstanding(Number(understood.dataset.understood));return}
  const clip=e.target.closest("[data-clip]");if(clip){const next=CLIPS.find(c=>c.id===clip.dataset.clip);if(next){currentClip=next;data.clip=next.id;store();renderWatch()}return}
  const wordButton=e.target.closest("[data-expression]");if(wordButton){currentWord=wordButton.dataset.expression;$("expression-popover").innerHTML=detailHtml(currentWord);return}
  const saved=e.target.closest("[data-saveword]");if(saved){saveWord(saved.dataset.saveword);$("expression-popover").innerHTML=detailHtml(saved.dataset.saveword);return}
@@ -213,7 +225,7 @@ document.addEventListener("click",e=>{
  if(e.target.id==="recall-good")rateRecall(true);
 });
 $("level-select").value=data.level;$("head-level").textContent=data.level;
-$("level-select").addEventListener("change",e=>{data.level=e.target.value;$("head-level").textContent=data.level;store()});
+$("level-select").addEventListener("change",e=>{data.level=e.target.value;$("head-level").textContent=data.level;currentClip=data.level==="B2–C1"?CLIPS[1]:CLIPS[0];data.clip=currentClip.id;store()});
 $("load-custom").addEventListener("click",loadCustom);
 $("save-reflection").addEventListener("click",saveReflection);
 $("next-scene").addEventListener("click",nextScene);
