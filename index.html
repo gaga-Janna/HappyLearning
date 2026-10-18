@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111820">
+<meta name="description" content="SceneQuest: learn natural English by watching authentic clips and playing interactive stories.">
+<title>SceneQuest | English in Action</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="nav wrap">
+    <button class="wordmark" data-go="discover" aria-label="SceneQuest Home"><span class="mark">✳</span><span>scenequest<small>ENGLISH, IN ACTION</small></span></button>
+    <nav class="desktop-nav" aria-label="Primary">
+      <button class="navbtn active" data-go="discover">Discover</button>
+      <button class="navbtn" data-go="watch">Watch</button>
+      <button class="navbtn" data-go="story">Play</button>
+      <button class="navbtn" data-go="notebook">Notebook</button>
+    </nav>
+    <div class="headstatus"><span id="head-level">B1–B2</span><span id="head-xp">✦ 0 XP</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="page active" id="page-discover">
+    <div class="hero">
+      <div class="hero-content">
+        <p class="overline">THE ENGLISH LEARNING ADVENTURE</p>
+        <h1>Don't just watch<br>the story.<br><em>Join it.</em></h1>
+        <p class="hero-description">Real conversations. Unexpected choices. English you'll actually want to use.</p>
+        <div class="level-picker"><label for="level-select">YOUR LEVEL</label><select id="level-select"><option value="A2–B1">A2–B1</option><option value="B1–B2">B1–B2</option><option value="B2–C1">B2–C1</option></select><span>Personalized learning path</span></div>
+        <div class="hero-actions"><button class="button primary" data-go="story">Start an episode <span>↗</span></button><button class="button outline" data-go="watch">Explore real videos</button></div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Stylized nighttime café scene"><div class="streetlight"></div><div class="hero-art-content"><span class="tiny">EPISODE 01 · THE COFFEE SHOP</span><strong>Every choice<br>opens a door.</strong></div><div class="window-glow"></div></div>
+    </div>
+    <div class="section-heading"><div><p class="overline">PICK A PATH</p><h2>A little English. A lot of story.</h2></div><span class="muted">Choose what sounds fun today</span></div>
+    <div class="feature-grid">
+      <article class="feature"><div class="feature-art story-art"><span>01 / ORIGINAL STORY</span><strong>The Unexpected<br>Invitation</strong></div><div class="feature-body"><div class="chip-line"><span class="chip gold">Interactive</span><span class="chip">B1+–B2</span><span class="chip">5–8 min</span></div><h3>Your friend needs some courage</h3><p>Help Emma make a difficult decision. What you say changes her confidence and how the story ends.</p><button class="button light" data-go="story">Enter the story <span>→</span></button></div></article>
+      <article class="feature"><div class="feature-art video-art"><span>WATCH / REAL ENGLISH</span><strong>Hear how people<br>really speak.</strong></div><div class="feature-body"><div class="chip-line"><span class="chip teal">Authentic</span><span class="chip">YouTube</span></div><h3>Short clips, real conversations</h3><p>Watch an authentic clip. Test your understanding, revisit a tricky moment, and save useful expressions.</p><button class="button light" data-go="watch">Enter video lab <span>→</span></button></div></article>
+      <article class="feature"><div class="feature-art words-art"><span>YOUR LANGUAGE MEMORY</span><strong>Make every<br>word yours.</strong></div><div class="feature-body"><div class="chip-line"><span class="chip">Active recall</span><span class="chip">Your pace</span></div><h3>Remember what matters</h3><p>Your personal phrase bank grows with every episode. Write your own sentences and review difficult expressions.</p><button class="button light" data-go="notebook">Open notebook <span>→</span></button></div></article>
+    </div>
+    <div class="promise"><span class="promise-icon">✧</span><div><strong>Made for real progress, not just streaks.</strong><p>Understand first. Practice next. Revisit what you almost forgot.</p></div></div>
+  </section>
+  <section class="page" id="page-watch">
+    <div class="page-intro"><p class="overline">WATCH MODE / AUTHENTIC ENGLISH</p><h1>Listen closer.<br><em>Notice more.</em></h1><p>Choose an official YouTube clip, follow one short section, and test what you understood before checking captions.</p></div>
+    <div class="watch-layout">
+      <div class="stack">
+        <div class="surface">
+          <div class="surface-heading"><span class="overline">YOUR VIDEO</span><span class="small-muted" id="video-type">Official YouTube content</span></div>
+          <div class="video-frame" id="video-frame"><div class="video-cover">Select a clip to start watching.</div></div>
+          <h3 id="video-title">Choose your first video</h3>
+          <p id="video-description" class="small-muted">We use YouTube's official embedded player. Availability and captions depend on each video's owner.</p>
+          <div class="video-meta" id="video-meta"></div>
+          <div class="divider"></div>
+          <label for="video-url" class="field-label">Or paste your own YouTube link</label>
+          <div class="inline-field"><input id="video-url" type="url" placeholder="https://youtube.com/watch?v=..." autocomplete="url"><button class="button outline compact" id="load-custom">Load</button></div>
+          <p class="small-muted" id="custom-message">For your own clips, this version supports playback and reflection, not automatic transcript analysis.</p>
+        </div>
+        <div class="surface">
+          <div class="surface-heading"><h3>After watching, what's the story?</h3><span class="chip">Output practice</span></div>
+          <p>Explain what happened, what surprised you, and one detail you may have missed. Writing makes your understanding visible.</p>
+          <label for="reflection" class="field-label">YOUR RETELLING</label>
+          <textarea id="reflection" rows="4" placeholder="At first, I thought... Later, I realized..."></textarea>
+          <div class="actions-inline"><button class="button primary compact" id="save-reflection">Save reflection</button><span id="reflection-message" class="small-muted"></span></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="surface"><div class="surface-heading"><h3>Explore the collection</h3><span class="chip" id="catalog-count">3 clips</span></div><div class="catalog" id="catalog"></div></div>
+        <div class="surface"><p class="overline">NOTICE & LEARN</p><h3>Useful expressions</h3><p>These are independently written practice examples, <strong>not</strong> a transcript of the video.</p><div class="sample-sentence">“I was going to <button class="inline-word" data-expression="bring up">bring it up</button>, but I <button class="inline-word" data-expression="chicken out">chickened out</button>.”</div><div class="sample-sentence">“Let's <button class="inline-word" data-expression="figure out">figure out</button> what happened.”</div><div id="expression-popover"></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="page" id="page-story">
+    <div class="story-top"><div><p class="overline">PLAY MODE / EPISODE 01</p><h1>The Unexpected Invitation</h1><p class="small-muted">An original interactive story. Your decisions shape the ending.</p></div><button class="button outline compact" id="restart-story">↻ Restart</button></div>
+    <div class="game-layout">
+      <div class="stack">
+        <div class="cinema"><div class="cinema-location"><span id="scene-label">THE COFFEE SHOP</span><span id="scene-count">Scene 1 / 5</span></div><div class="cinema-figure"><div class="person person-a"><span>E</span></div><div class="person person-b"><span>YOU</span></div></div><div class="cinema-dialogue"><span id="speaker">EMMA</span><p id="line"></p></div><div class="cinema-bottom"><button class="sound-btn" id="speak-line" aria-label="Read line aloud">▶ Listen</button><span id="scene-mood">An awkward conversation</span></div></div>
+        <div class="surface choice-panel"><p class="overline" id="choice-type">WHAT WOULD YOU SAY?</p><h3 id="choice-prompt">Choose a natural response.</h3><div class="choice-list" id="choices"></div><div id="choice-feedback" class="feedback hidden" role="status"></div><div class="actions-inline"><button class="button primary hidden" id="next-scene">Continue story →</button><span id="story-result" class="small-muted"></span></div></div>
+      </div>
+      <aside class="stack">
+        <div class="surface"><div class="surface-heading"><h3>Your story journal</h3><span class="chip" id="confidence-chip">Confidence: 0</span></div><div class="progress-track"><div id="story-progress"></div></div><p class="small-muted" id="progress-note">Every choice matters.</p><div id="choice-journal" class="journal"></div></div>
+        <div class="surface"><p class="overline">EXPRESSIONS FROM THIS STORY</p><div id="story-vocab" class="story-vocab"></div><p class="small-muted">Tap any expression to see its meaning and save it.</p></div>
+      </aside>
+    </div>
+  </section>
+  <section class="page" id="page-notebook">
+    <div class="page-intro"><p class="overline">YOUR LANGUAGE MEMORY</p><h1>Learn it. Use it.<br><em>Remember it.</em></h1><p>Practice the expressions you've collected. Words you know well appear less often; difficult ones come back sooner.</p></div>
+    <div class="notebook-summary"><div><span class="small-muted">SAVED EXPRESSIONS</span><strong id="saved-count">0</strong></div><div><span class="small-muted">PRACTICE SENTENCES</span><strong id="sentences-count">0</strong></div><div><span class="small-muted">EXPERIENCE</span><strong id="stat-xp">0 XP</strong></div></div>
+    <div class="notebook-layout"><div class="stack"><div class="surface"><div class="surface-heading"><h3>Your phrase bank</h3><button class="button outline compact" id="seed-vocab">Add starter phrases</button></div><div id="saved-words" class="saved-words"></div></div><div class="surface"><h3>Put it in your own words</h3><p>Try using a saved expression in a sentence about your own experience. The basic check here detects whether you used the phrase; it does not grade grammar or meaning.</p><label class="field-label" for="sentence-expression">YOUR EXPRESSION</label><select id="sentence-expression"></select><label class="field-label" for="sentence-input">YOUR SENTENCE</label><textarea id="sentence-input" rows="3" placeholder="I almost chickened out before the interview..."></textarea><div class="actions-inline"><button class="button primary compact" id="check-sentence">Check and save</button><span id="sentence-feedback" class="small-muted"></span></div></div></div><aside class="surface recall"><p class="overline">ACTIVE RECALL / QUICK REVIEW</p><h3>Can you remember it?</h3><div id="recall-content"></div><div class="actions-inline" id="recall-actions"></div><div class="divider"></div><p class="small-muted">A lightweight review schedule is used in this MVP. It is not a validated CEFR test or a full adaptive learning model.</p></aside></div>
+  </section>
+</main>
+<footer class="wrap footer"><span>SceneQuest by HappyLearning</span><span>Early public MVP · Local browser progress · No AI grading or user accounts yet</span></footer>
+<nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-go="discover"><span>◈</span>Discover</button><button data-go="watch"><span>▶</span>Watch</button><button data-go="story"><span>✦</span>Play</button><button data-go="notebook"><span>▤</span>Words</button></nav>
+<script src="app.js" defer></script>
+</body></html>
